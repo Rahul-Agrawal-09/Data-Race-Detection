@@ -2,6 +2,7 @@
     "makefile.extensionOutputFolder": "./.vscode",
     "files.associations": {
         "inttypes.h": "c",
-        "dpst.h": "c"
+        "dpst.h": "c",
+        "stdlib.h": "c"
     }
 }
