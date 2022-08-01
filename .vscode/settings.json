@@ -3,6 +3,12 @@
     "files.associations": {
         "inttypes.h": "c",
         "dpst.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "*.tcc": "c",
+        "unordered_map": "c",
+        "fstream": "c",
+        "istream": "c",
+        "ostream": "c",
+        "sstream": "c"
     }
 }

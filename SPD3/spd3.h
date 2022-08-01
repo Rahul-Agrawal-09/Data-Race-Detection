@@ -1,14 +1,7 @@
-#include <stdlib.h>
-#include <stdio.h>
+#include "dpst.h"
 
-//This file contain all the functions of spd3 in C
-#ifdef __cplusplus
-extern "C" {
-#endif
+void spd3_launch(void client_main(generic_node*));
 
-//test
-void hello(){printf("Hello");};
+void spd3_async(void client_async(generic_node*), generic_node*step_spawning);
 
-#ifdef __cplusplus
-}
-#endif
+void spd3_finish(void client_finish());

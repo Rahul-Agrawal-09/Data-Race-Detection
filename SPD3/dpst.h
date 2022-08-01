@@ -9,6 +9,7 @@ type=2 => finish node */
 typedef struct dpst_node{
     uint64_t node_id;
     uint8_t type;
+    struct dpst_node*parent;
     vector childs;
 } generic_node;
 
@@ -25,4 +26,7 @@ generic_node* create_async_node();
 generic_node* create_step_node();
 
 //this functon initialises the dpst when hclib launch is called
-void dpst_init();
+generic_node* dpst_init();
+
+//this function add async node in parent
+generic_node* dpst_add_async_node(generic_node*parent);
