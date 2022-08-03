@@ -1,17 +1,21 @@
 #include <stdlib.h>
 #include <inttypes.h>
-#include "vector.h"
 
 /*This is common generic_node of all 3 type of generic_node
 type=0 => step node
 type=1 => async node
 type=2 => finish node */
 typedef struct dpst_node{
-    uint64_t node_id;
     uint8_t type;
+    uint64_t node_id;
+    uint64_t depth;
+    uint16_t num_children;
+    uint64_t seq_no;
     struct dpst_node*parent;
-    vector childs;
 } generic_node;
+
+
+generic_node* ROOT;
 
 //this function creates new generic_node
 generic_node* create_node();

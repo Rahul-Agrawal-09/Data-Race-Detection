@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "spd3.h"
 
+//NOTE: ALL THE SHARED VARIABLES SHOULD BE DECLARED DYNAMICALLY
+
 void fun_async(generic_node* step){
     printf("This is fun_async. %ld\n",(long)step->node_id);
 }

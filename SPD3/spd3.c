@@ -1,13 +1,11 @@
 #include"spd3.h"
 
-generic_node* ROOT;
 
 //This function initialises the dpst
 void spd3_launch(void client_main(generic_node*)){
-    ROOT = dpst_init();
-
+    generic_node* root_step = dpst_init();
     //Passing step_id as parameter so as to use write and read method
-    client_main(((generic_node*)vector_get(ROOT->childs,0)));
+    client_main(root_step);
     return;
 }
 
