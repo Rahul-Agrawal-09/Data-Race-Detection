@@ -1,10 +1,14 @@
 #include <stdlib.h>
 #include <inttypes.h>
+#include <stdio.h>
+#include <stdbool.h>
 
-/*This is common generic_node of all 3 type of generic_node
+/*
+This is common generic_node of all 3 type of generic_node
 type=0 => step node
 type=1 => async node
-type=2 => finish node */
+type=2 => finish node 
+*/
 typedef struct dpst_node{
     uint8_t type;
     uint64_t node_id;
@@ -14,7 +18,7 @@ typedef struct dpst_node{
     struct dpst_node*parent;
 } generic_node;
 
-
+//This is the root of the dpst
 generic_node* ROOT;
 
 //this function creates new generic_node
@@ -40,3 +44,10 @@ generic_node* dpst_add_step_node(generic_node*parent);
 
 //this function add finish node in parent (returns the step added as its child)
 generic_node* dpst_add_finish_node(generic_node*parent);
+
+//this function find LCA of two step noeds
+generic_node* dpst_LCA(generic_node*s1 ,generic_node*s2);
+
+generic_node* dpst_A_and_C(generic_node*step,generic_node*LCA);
+
+bool dpst_DMHP(generic_node*s1 , generic_node*s2);

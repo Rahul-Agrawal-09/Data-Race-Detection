@@ -1,6 +1,6 @@
 CC?=gcc
 
 # Build the dpst
-dpst: dpst.c spd3.c test.c 
-	$(CC) -o $@ $^
+dpst: dpst.c memory.c spd3.c test.c 
+	$(CC) -o -g $@ $^
 

@@ -69,6 +69,41 @@ generic_node* dpst_add_finish_node(generic_node*parent){
     return create_finish_node(parent);
 }
 
+generic_node* dpst_LCA(generic_node*s1,generic_node*s2){
+    while(s1->depth != s2->depth){
+        if(s1->depth > s2->depth)
+            s1=s1->parent;
+        if(s1->depth < s2->depth)
+            s2=s2->parent;
+    }
+    while (s1!=s2){
+        s1=s1->parent;
+        s2=s2->parent;
+    }
+    return s1;
+}
+
+generic_node* dpst_A_and_C(generic_node*step,generic_node*LCA){
+    while(step->parent!=LCA){
+        step=step->parent;
+    }
+    return step;
+}
+
+bool dpst_DMHP(generic_node*s1 , generic_node*s2){
+    generic_node *lca=dpst_LCA(s1,s2);
+    generic_node*A1=dpst_A_and_C(s1,lca);
+    generic_node*A2=dpst_A_and_C(s2,lca);
+    if(A1->seq_no < A2->seq_no){
+        return (A1->type==ASYNC);
+    }
+    else{
+        return (A2->type==ASYNC);
+    }
+}
+
+
+
 // int main(int argc, char const *argv[])
 // {
 //     // finish_node*root=create_finish_node();
