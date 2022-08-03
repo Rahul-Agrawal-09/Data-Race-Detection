@@ -28,5 +28,11 @@ generic_node* create_step_node();
 //this functon initialises the dpst when hclib launch is called
 generic_node* dpst_init();
 
-//this function add async node in parent
+//this function add async node in parent (returns the step added as its child)
 generic_node* dpst_add_async_node(generic_node*parent);
+
+//this function add step node [required after adding asyn and final node]
+generic_node* dpst_add_step_node(generic_node*parent);
+
+//this function add finish node in parent (returns the step added as its child)
+generic_node* dpst_add_finish_node(generic_node*parent);

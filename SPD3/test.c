@@ -3,14 +3,25 @@
 #include "spd3.h"
 
 void fun_async(generic_node* step){
-    printf("This is async. %ld\n",(long)step->node_id);
+    printf("This is fun_async. %ld\n",(long)step->node_id);
 }
 
-void init(generic_node* step){
-    printf("This is init. %ld\n",(long)step->node_id);
+void fun_finish(generic_node* step){
+    printf("This is fun_finish (before spawning async). %ld\n",(long)step->node_id);
 
     //init spawning async node
     spd3_async(fun_async,step);
+
+    printf("This is fun_finish (after spawning async). %ld\n",(long)step->node_id);
+}
+
+void init(generic_node* step){
+    printf("This is init (before spawning finish). %ld\n",(long)step->node_id);
+
+    //init spawning async node
+    spd3_finish(fun_finish,step);
+
+    printf("This is init (after spawning finish). %ld\n",(long)step->node_id);
 }
 
 int main(int argc, char const *argv[])

@@ -55,6 +55,18 @@ generic_node* dpst_add_async_node(generic_node*parent){
     return (generic_node*)vector_get(async->childs,0);
 }
 
+generic_node* dpst_add_step_node(generic_node*parent){
+    generic_node* step=create_step_node(parent);
+    vector_push(parent->childs,step);
+    return step;
+}
+
+generic_node* dpst_add_finish_node(generic_node*parent){
+    generic_node* finish=create_finish_node(parent);
+    vector_push(parent->childs,finish);
+    return (generic_node*)vector_get(finish->childs,0);
+}
+
 // int main(int argc, char const *argv[])
 // {
 //     // finish_node*root=create_finish_node();

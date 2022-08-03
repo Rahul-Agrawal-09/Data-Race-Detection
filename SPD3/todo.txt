@@ -1,3 +1,0 @@
-                Only C inplementation of SPD3
-
-1. create a c header file with all spd3 structure 
