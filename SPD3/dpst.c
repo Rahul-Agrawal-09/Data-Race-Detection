@@ -101,17 +101,3 @@ bool dpst_DMHP(generic_node*s1 , generic_node*s2){
         return (A2->type==ASYNC);
     }
 }
-
-
-
-// int main(int argc, char const *argv[])
-// {
-//     // finish_node*root=create_finish_node();
-//     dpst_init();
-//     printf("hello\n");
-//     generic_node*root2=create_finish_node();
-//     // two ways of printing uint64_t
-//     printf("%ld\n", (long)((generic_node*)vector_get(root2->childs,0))->node_id); 
-//     printf("%" PRIu64 "\n", (root2->node_id));
-//     return 0;
-// }

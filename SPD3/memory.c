@@ -30,7 +30,7 @@ int spd3_read_int(generic_node*step,int*ptr){
     void*v_ptr=(void*)ptr;
     shadow_mem* sm=v_ptr-sm_size;
     if(sm->w!=NULL && sm->w!=step && dpst_DMHP(sm->w,step)){
-        printf("!---READ-WRITE RACE---! with %ld\n",(long)sm->r2->node_id);
+        printf("!---READ-WRITE RACE---! with %ld\n",(long)sm->w->node_id);
     }
     if(sm->r1==NULL){
         sm->r1=step;
@@ -54,5 +54,5 @@ int spd3_read_int(generic_node*step,int*ptr){
             }
         }
     }
-    return 5;
+    return *ptr;
 }
