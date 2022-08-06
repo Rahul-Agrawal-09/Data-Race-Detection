@@ -12,6 +12,7 @@
         "sstream": "c",
         "stdio.h": "c",
         "spd3.h": "c",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "memory.h": "c"
     }
 }

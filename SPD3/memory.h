@@ -2,6 +2,7 @@
 #include <inttypes.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <pthread.h>
 #include "dpst.h"
 
 /*
@@ -14,6 +15,7 @@ typedef struct shadow_memory{
     generic_node *w;
     generic_node *r1;
     generic_node *r2;
+    pthread_mutex_t lock;
 } shadow_mem;
 
 

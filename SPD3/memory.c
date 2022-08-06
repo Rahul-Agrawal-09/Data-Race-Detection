@@ -1,3 +1,4 @@
+#include <pthread.h>
 #include "memory.h"
 
 void* spd3_malloc(size_t size){
@@ -6,6 +7,10 @@ void* spd3_malloc(size_t size){
     sm->w=NULL;
     sm->r1=NULL;
     sm->r2=NULL;
+    if (pthread_mutex_init(&(sm->lock), NULL) != 0) {
+        printf("\n MUTEX INIT HAS FAILED at %p\n",(ptr+sm_size));
+        return NULL;
+    }
     return (ptr+sm_size);
 }
 
@@ -13,24 +18,29 @@ void* spd3_malloc(size_t size){
 void spd3_write_int(generic_node*step,int*ptr, int value){
     void*v_ptr=(void*)ptr;
     shadow_mem* sm=v_ptr-sm_size;
+
+    pthread_mutex_lock(&sm->lock);
     if(sm->r1!=NULL && sm->r1!=step && dpst_DMHP(sm->r1,step)){
-        printf("!---READ-WRITE RACE---! with %ld\n",(long)sm->r1->node_id);
+        printf("!---READ-WRITE RACE---! at %p\n",ptr);
     }
     if(sm->r2!=NULL && sm->r2!=step && dpst_DMHP(sm->r2,step)){
-        printf("!---READ-WRITE RACE---! with %ld\n",(long)sm->r2->node_id);
+        printf("!---READ-WRITE RACE---! at %p\n",ptr);
     }
     if(sm->w!=NULL && sm->w!=step && dpst_DMHP(sm->w,step)){
-        printf("!---WRITE-WRITE RACE---! with %ld\n",(long)sm->w->node_id);
+        printf("!---WRITE-WRITE RACE---! at %p\n",ptr);
     }
     sm->w=step;
     *ptr=value;
+    pthread_mutex_unlock(&sm->lock);
 }
 
 int spd3_read_int(generic_node*step,int*ptr){
     void*v_ptr=(void*)ptr;
     shadow_mem* sm=v_ptr-sm_size;
+
+    pthread_mutex_lock(&sm->lock);
     if(sm->w!=NULL && sm->w!=step && dpst_DMHP(sm->w,step)){
-        printf("!---READ-WRITE RACE---! with %ld\n",(long)sm->w->node_id);
+        printf("!---READ-WRITE RACE---! at %p\n",ptr);
     }
     if(sm->r1==NULL){
         sm->r1=step;
@@ -54,5 +64,6 @@ int spd3_read_int(generic_node*step,int*ptr){
             }
         }
     }
+    pthread_mutex_unlock(&sm->lock);
     return *ptr;
 }

@@ -1,0 +1,13 @@
+1. detailed code documentation above code
+
+2. ppt-> phtots of vector clocks ()+ work flow of code
+dpd3 + vector clock
+
+3. matrix multipication n^3/num_thread (pthread program)
+parallel program
+data race => num_thread changable and n should be divisible
+asert(n^3%n==0)
+
+4. array sum ()
+
+5. some test file
