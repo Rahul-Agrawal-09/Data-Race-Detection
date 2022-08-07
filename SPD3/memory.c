@@ -1,4 +1,3 @@
-#include <pthread.h>
 #include "memory.h"
 
 void* spd3_malloc(size_t size){
@@ -14,20 +13,19 @@ void* spd3_malloc(size_t size){
     return (ptr+sm_size);
 }
 
-
 void spd3_write_int(generic_node*step,int*ptr, int value){
     void*v_ptr=(void*)ptr;
     shadow_mem* sm=v_ptr-sm_size;
 
     pthread_mutex_lock(&sm->lock);
     if(sm->r1!=NULL && sm->r1!=step && dpst_DMHP(sm->r1,step)){
-        printf("!---READ-WRITE RACE---! at %p\n",ptr);
+        printf("\n!---READ-WRITE RACE---! at %p\n",ptr);
     }
     if(sm->r2!=NULL && sm->r2!=step && dpst_DMHP(sm->r2,step)){
-        printf("!---READ-WRITE RACE---! at %p\n",ptr);
+        printf("\n!---READ-WRITE RACE---! at %p\n",ptr);
     }
     if(sm->w!=NULL && sm->w!=step && dpst_DMHP(sm->w,step)){
-        printf("!---WRITE-WRITE RACE---! at %p\n",ptr);
+        printf("\n!---WRITE-WRITE RACE---! at %p\n",ptr);
     }
     sm->w=step;
     *ptr=value;
@@ -40,7 +38,7 @@ int spd3_read_int(generic_node*step,int*ptr){
 
     pthread_mutex_lock(&sm->lock);
     if(sm->w!=NULL && sm->w!=step && dpst_DMHP(sm->w,step)){
-        printf("!---READ-WRITE RACE---! at %p\n",ptr);
+        printf("\n!---READ-WRITE RACE---! at %p\n",ptr);
     }
     if(sm->r1==NULL){
         sm->r1=step;
