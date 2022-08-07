@@ -25,7 +25,8 @@ void spd3_launch(void client_main(generic_node*), int const num_thread){
     printf("  SPD3 STARTED WITH NUM-THREAD: %d  ",num_thread);
     printf("\n===================================\n");
 
-    //This function initialises the DPST of SPD3 program
+    //This function initialises the DPST of SPD3 program 
+    //and the array of thread id according to num thread argument provided by the user
     generic_node* root_step = dpst_init();
     THREAD_ID=(pthread_t*)malloc(sizeof(pthread_t)*num_thread);
 
@@ -43,6 +44,7 @@ void spd3_async(void *client_async(void*), generic_node*step_spawning, char **ar
     generic_node*parent=step_spawning->parent;
     generic_node*step_async = dpst_add_async_node(parent);
 
+    //preparing the argument structure to pass arguments to the client_async function
     fun_arg *arg=(fun_arg*)malloc(sizeof(fun_arg));
     arg->step=(generic_node*)malloc(sizeof(generic_node));
     *arg->step=*step_async;
@@ -51,8 +53,11 @@ void spd3_async(void *client_async(void*), generic_node*step_spawning, char **ar
     //after adding the async node a new step node need to be added to the parent that represents the
     //computation whihc is after the new async section of code.
     *step_spawning=*dpst_add_step_node(parent);
+
+    //new thread is created and thread id stored in in an array to join in the implicit finish section
     pthread_create(&THREAD_ID[THREAD_INDEX++],NULL,client_async,(void*)arg);
-    // pthread_join(THREAD_ID[THREAD_INDEX-1],NULL);    //uncomment to run the program in sequencial mode
+    // pthread_join(THREAD_ID[THREAD_INDEX-1],NULL);    /*----uncomment to run the program in sequencial mode----*/
+    
     return;
 }
 
@@ -62,6 +67,7 @@ void spd3_finish(void *client_finish(void*), generic_node*step_spawning, char **
     generic_node*parent=step_spawning->parent;
     generic_node*step_finish=dpst_add_finish_node(parent);
 
+    //preparing the argument structure to pass arguments to the client_finish function
     fun_arg *arg=(fun_arg*)malloc(sizeof(fun_arg));
     arg->step=(generic_node*)malloc(sizeof(generic_node));
     *arg->step=*step_finish;
@@ -70,7 +76,10 @@ void spd3_finish(void *client_finish(void*), generic_node*step_spawning, char **
     //after adding the finish node a new step node need to be added to the parent that represents the
     //computation which is after the new finish section of code.
     *step_spawning=*dpst_add_step_node(parent);
+
+    //no new thread creation in finish as it do not create a new task
     client_finish(arg);
+    
     return;
 }
 

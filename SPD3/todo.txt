@@ -1,4 +1,8 @@
 1. detailed code documentation above code
+dpst documentation DONE
+spd3 documentation DONE
+memory documentation DONE
+test case documentation 
 
 2. ppt-> phtots of vector clocks ()+ work flow of code
 dpd3 + vector clock
@@ -8,6 +12,9 @@ parallel program
 data race => num_thread changable and n should be divisible
 asert(n^3%n==0)
 
-4. array sum ()
+4. array sum () DONE
 
-5. some test file
+5. some test file 
+added trivial test => older
+array_sum => DONE
+matrix multiplication =>  
