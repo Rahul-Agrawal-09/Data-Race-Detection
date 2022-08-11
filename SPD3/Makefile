@@ -1,7 +1,7 @@
 CC?=gcc
 
 #clean and build
-all: clean trivial_test
+all: clean trivial_test arr_test
 
 # Build the trivial_test
 trivial_test: dpst.c memory.c spd3.c test.c -lpthread

@@ -4,30 +4,37 @@
 #include <assert.h>
 #include "spd3.h"
 
-#define SIZE 8
+#define SIZE 64
 int arr[SIZE];
 int num_thread;
 int chunk_size;
 int *sum;
 
 void *fun_async(void *arg_struct){
+    //extracting the arguments from argument structure
     fun_arg* arg=(fun_arg*)arg_struct;
     int start=atoi(arg->argv[0]);
     int end=atoi(arg->argv[1]);
     for (int i =start ; i < end; i++){
+        //reading the sum variable
         int temp=spd3_read_int(arg->step,sum);
+        //writing the sum variable
         spd3_write_int(arg->step,sum,(temp+arr[i]));
     }
     return NULL;
 }
 
 void fun_main(generic_node* step){
+
+    //initializing the dynamic shared variable sum 
     sum=(int*)spd3_malloc(sizeof(int));
     for (size_t i = 0; i < SIZE; i++)
         arr[i]=(i+1);
     assert(SIZE%num_thread == 0);
     chunk_size=SIZE/num_thread;
+
     for (int worker = 0; worker < num_thread; worker++){
+        //preparing arguments to pass to the aysnc function
         char **argv;
         argv=(char**)malloc(sizeof(char*));
         argv[0]=(char*)malloc(sizeof(char)*10);
@@ -36,6 +43,8 @@ void fun_main(generic_node* step){
         int end=start+chunk_size;
         sprintf(argv[0], "%d", start);
         sprintf(argv[1], "%d", end);
+
+        //spawning new async task
         printf("\nSpawning %d thread using spd3_async() function\n",(worker+1));
         spd3_async(fun_async,step,argv);
     }
@@ -58,10 +67,8 @@ int main(int argc, char const *argv[])
         }
     }
     
-    //this function calls the initialiation function using init
+    //initialising the SPD3 program with fun_main function
     spd3_launch(fun_main,num_thread);
-
     printf("\nFinal SUM is: %d\n",*sum);
-
     return 0;
 }
